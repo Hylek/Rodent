@@ -8,9 +8,13 @@ public:
 	game();
 	~game();
 	bool init();
-	void run() const;
+	void run();
 
 private:
 	std::unique_ptr<window_manager> window_;
+
+	void handle_input();
+	void update();
+	void render();
 };
 

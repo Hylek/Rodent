@@ -49,13 +49,31 @@ bool game::init()
 	return true;
 }
 
-void game::run() const
+void game::run()
 {
+	// Game Loop: Input Handling, Updating Logic, and Rendering should happen here.
 	while (!window_->is_window_closed())
 	{
-		glClearColor(0.0f, 0.15f, 0.3f, 1.0f);
-		glClear(GL_COLOR_BUFFER_BIT);
-
-		window_->update();
+		handle_input();
+		update();
+		render();
 	}
+}
+
+void game::handle_input()
+{
+
+}
+
+void game::update()
+{
+
+}
+
+void game::render()
+{
+	glClearColor(0.0f, 0.15f, 0.3f, 1.0f);
+	glClear(GL_COLOR_BUFFER_BIT);
+
+	window_->update();
 }

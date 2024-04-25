@@ -1,5 +1,4 @@
 #include <iostream>
-#include <glew/glew.h>
 #include <sdl2/SDL_log.h>
 #include <sdl2/SDL.h>
 
@@ -7,8 +6,6 @@
 
 int main(int argc, char *argv[])
 {
-    std::cout << "Hello World!\n";
-
     const std::unique_ptr<game> app(new game());
     if (app->init())
     {
