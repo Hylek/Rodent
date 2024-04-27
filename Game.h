@@ -1,5 +1,9 @@
 #pragma once
 
+#include <memory>
+#include <glew/glew.h>
+#include <sdl2/SDL.h>
+
 #include "window_manager.h"
 
 class game
@@ -8,6 +12,7 @@ public:
 	game();
 	~game();
 	bool init();
+	bool start();
 	void run();
 
 private:

@@ -2,6 +2,7 @@
 #include <string>
 #include <iostream>
 #include <sdl2/SDL.h>
+#include <glew/glew.h>
 
 class window_manager
 {
@@ -17,5 +18,8 @@ private:
 	std::unique_ptr<SDL_Window, decltype(&SDL_DestroyWindow)> sdl_window_;
 	SDL_GLContext sdl_gl_context_;
 	bool is_closed_;
+
+	void process_events(const SDL_Event& e);
+
 };
 

@@ -2,7 +2,7 @@
 #include <sdl2/SDL_log.h>
 #include <sdl2/SDL.h>
 
-#include "Game.h"
+#include "game.h"
 
 int main(int argc, char *argv[])
 {
@@ -10,11 +10,15 @@ int main(int argc, char *argv[])
     if (app->init())
     {
         SDL_Log("Init OK");
-    	app->run();
+        if (app->start())
+        {
+            SDL_Log("Start OK");
+        	app->run();
+        }
     }
     else
     {
-	    SDL_LogCritical(SDL_LOG_CATEGORY_ERROR, "FAILED TO CREATE APP.");
+	    SDL_LogCritical(SDL_LOG_CATEGORY_ERROR, "FAILED TO START APP.");
         return -1;
     }
 

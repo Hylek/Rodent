@@ -1,11 +1,4 @@
-#include <memory>
-
-#include "Game.h"
-
-#include <glew/glew.h>
-#include <sdl2/SDL.h>
-
-#include "window_manager.h"
+#include "game.h"
 
 game::game()
 = default;
@@ -49,9 +42,14 @@ bool game::init()
 	return true;
 }
 
+bool game::start()
+{
+	return true;
+}
+
 void game::run()
 {
-	// Game Loop: Input Handling, Updating Logic, and Rendering should happen here.
+	// Game Loop
 	while (!window_->is_window_closed())
 	{
 		handle_input();
