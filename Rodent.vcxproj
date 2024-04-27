@@ -132,10 +132,16 @@
   <ItemGroup>
     <ClCompile Include="game.cpp" />
     <ClCompile Include="main.cpp" />
+    <ClCompile Include="mesh.cpp" />
+    <ClCompile Include="renderer.cpp" />
+    <ClCompile Include="resource_loader.cpp" />
     <ClCompile Include="window_manager.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="game.h" />
+    <ClInclude Include="mesh.h" />
+    <ClInclude Include="renderer.h" />
+    <ClInclude Include="resource_loader.h" />
     <ClInclude Include="window_manager.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
