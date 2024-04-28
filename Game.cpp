@@ -118,15 +118,23 @@ void game::render()
 	glClearColor(0.0f, 0.15f, 0.3f, 1.0f);
 	glClear(GL_COLOR_BUFFER_BIT);
 
-	renderer_->draw(shader_program_id_);
+	renderer_->draw();
 
 	window_->update();
 }
 
-bool game::load_shaders()
+bool game::load_shaders() const
 {
-	const auto vertex_shader = resource_loader::create_shader_direct(vertex_shader_source, shader_type::vertex);
-	const auto fragment_shader = resource_loader::create_shader_direct(fragment_shader_source, shader_type::fragment);
+	// todo: Expand this in future to compile and store multiple programs.
+	const auto result = create_program("Colour", vertex_shader_source, fragment_shader_source);
+
+	return result;
+}
+
+bool game::create_program(const std::string& name, const char* vertex_source, const char* fragment_source) const
+{
+	const auto vertex_shader = resource_loader::create_shader_direct(vertex_source, vertex);
+	const auto fragment_shader = resource_loader::create_shader_direct(fragment_source, fragment);
 
 	if (!fragment_shader || !vertex_shader)
 	{
@@ -140,7 +148,7 @@ bool game::load_shaders()
 		return false;
 	}
 
-	shader_program_id_ = shader_program;
+	renderer_->add_program(name, shader_program);
 
 	SDL_Log("Shader Program OK");
 

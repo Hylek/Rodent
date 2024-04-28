@@ -2,7 +2,7 @@
 
 #include "mesh.h"
 
-void renderer::draw(const unsigned int program) const
+void renderer::draw()
 {
 	if (meshes_.empty()) return;
 
@@ -12,7 +12,8 @@ void renderer::draw(const unsigned int program) const
 	// todo: Alter this to instead use draw lists, to draw in specific batches.
 	for (const auto& mesh : meshes_)
 	{
-		glUseProgram(program);
+		// todo: Allow flexibility for programs to be used depending on mesh to be drawn.
+		glUseProgram(get_program("Colour"));
 		glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, mesh->get_ebo());
         glBindVertexArray(mesh->get_vao());
 
@@ -32,4 +33,20 @@ renderer::~renderer()
 void renderer::add_mesh(const std::shared_ptr<mesh>& mesh)
 {
 	meshes_.push_back(mesh);
+}
+
+void renderer::add_program(const std::string& name, const GLuint program)
+{
+	shader_programs_[name] = program;
+}
+
+GLuint renderer::get_program(const std::string& name)
+{
+	const auto it = shader_programs_.find(name);
+    if (it != shader_programs_.end())
+	{
+    	return it->second;
+    }
+
+    return 0;
 }

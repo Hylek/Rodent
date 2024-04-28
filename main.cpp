@@ -15,6 +15,11 @@ int main(int argc, char *argv[])
             SDL_Log("Start OK");
         	app->run();
         }
+        else
+        {
+        	SDL_LogCritical(SDL_LOG_CATEGORY_ERROR, "FAILED TO START APP.");
+			return -1;
+        }
     }
     else
     {

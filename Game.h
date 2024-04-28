@@ -21,13 +21,12 @@ private:
 	std::unique_ptr<window_manager> window_;
 	std::unique_ptr<renderer> renderer_;
 
-	unsigned int shader_program_id_{};
-
 	void handle_input();
 	void update();
 	void render();
 
-	bool ok_{};
-	bool load_shaders();
+	bool ok_;
+	bool load_shaders() const;
+	bool create_program(const std::string& name, const char* vertex_source, const char* fragment_source) const;
 };
 
