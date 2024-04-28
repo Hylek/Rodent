@@ -115,7 +115,7 @@ void game::update()
 
 void game::render()
 {
-	glClearColor(0.0f, 0.15f, 0.3f, 1.0f);
+	glClearColor(0.39f, 0.58f, 0.93f, 1.0f);
 	glClear(GL_COLOR_BUFFER_BIT);
 
 	renderer_->draw();
