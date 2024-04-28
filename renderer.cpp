@@ -6,8 +6,10 @@ void renderer::draw(const unsigned int program) const
 {
 	if (meshes_.empty()) return;
 
-	glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
+	// Enables a "wire-frame" mode for drawing.
+	// glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
 
+	// todo: Alter this to instead use draw lists, to draw in specific batches.
 	for (const auto& mesh : meshes_)
 	{
 		glUseProgram(program);
