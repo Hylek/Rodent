@@ -13,7 +13,7 @@ void renderer::draw()
 	for (const auto& mesh : meshes_)
 	{
 		// todo: Allow flexibility for programs to be used depending on mesh to be drawn.
-		glUseProgram(get_program("Colour"));
+		glUseProgram(get_program("Standard"));
 		glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, mesh->get_ebo());
         glBindVertexArray(mesh->get_vao());
 

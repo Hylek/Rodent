@@ -126,15 +126,23 @@ void game::render()
 bool game::load_shaders() const
 {
 	// todo: Expand this in future to compile and store multiple programs.
-	const auto result = create_program("Colour", vertex_shader_source, fragment_shader_source);
+
+	const auto vertex_from_source_file = resource_loader::load_shader_source("data/vertex.shader");
+	const auto fragment_from_source_file = resource_loader::load_shader_source("data/fragment.shader");
+	const auto result = create_program("Standard", vertex_from_source_file, fragment_from_source_file);
+
+	const auto vtx_source_colour = resource_loader::load_shader_source("data/vertex-colour.shader");
+	const auto frag_source_colour = resource_loader::load_shader_source("data/fragment-colour.shader");
+	const auto result2 = create_program("Colour", vtx_source_colour, frag_source_colour);
 
 	return result;
 }
 
-bool game::create_program(const std::string& name, const char* vertex_source, const char* fragment_source) const
+bool game::create_program(const std::string& name, const std::shared_ptr<std::string>& vertex_source, const std::shared_ptr<std::string>
+                          & fragment_source) const
 {
-	const auto vertex_shader = resource_loader::create_shader_direct(vertex_source, vertex);
-	const auto fragment_shader = resource_loader::create_shader_direct(fragment_source, fragment);
+	const auto vertex_shader = resource_loader::create_shader(vertex_source, vertex);
+	const auto fragment_shader = resource_loader::create_shader(fragment_source, fragment);
 
 	if (!fragment_shader || !vertex_shader)
 	{

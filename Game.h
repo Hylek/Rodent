@@ -27,6 +27,7 @@ private:
 
 	bool ok_;
 	bool load_shaders() const;
-	bool create_program(const std::string& name, const char* vertex_source, const char* fragment_source) const;
+	bool create_program(const std::string& name, const std::shared_ptr<std::string>& vertex_source, const std::shared_ptr<std::string>&
+	                    fragment_source) const;
 };
 

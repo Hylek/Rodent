@@ -9,7 +9,8 @@ resource_loader::~resource_loader()
 std::shared_ptr<std::string> resource_loader::load_shader_source(const std::string& path)
 {
 	// todo: Make assumption that all shader files should end in .shader?
-	std::ifstream file(path);
+	std::ifstream file;
+	file.open(path.c_str());
 	if (!file.is_open())
 	{
 		SDL_LogCritical(SDL_LOG_CATEGORY_RENDER, "Failed to load shader from source!");
@@ -30,6 +31,8 @@ std::shared_ptr<std::string> resource_loader::load_shader_source(const std::stri
 
 GLuint resource_loader::create_shader(const std::shared_ptr<std::string>& source, const shader_type type)
 {
+	if (!source) return -1;
+
 	const auto shader = glCreateShader(type == shader_type::vertex ? GL_VERTEX_SHADER : GL_FRAGMENT_SHADER);
 	const auto source_char = source->c_str();
 
