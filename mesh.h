@@ -2,6 +2,8 @@
 #include <vector>
 #include <glew/glew.h>
 
+#include "transform_component.h"
+
 class mesh
 {
 public:
@@ -12,6 +14,9 @@ public:
 	GLuint get_vao() const;
 	GLuint get_vbo() const;
 	GLuint get_ebo() const;
+	int get_indices_count() const;
+
+	transform_component transform;
 private:
 	std::vector<float> vertices_;
 	std::vector<unsigned int> indices_;

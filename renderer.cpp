@@ -1,26 +1,36 @@
 #include "renderer.h"
 
+#include <utility>
+#include <sdl2/SDL_timer.h>
+
 #include "mesh.h"
 
 void renderer::draw()
 {
-	if (meshes_.empty()) return;
+	if (drawing_lists_.empty()) return;
 
 	// Enables a "wire-frame" mode for drawing.
 	// glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
 
-	// todo: Alter this to instead use draw lists, to draw in specific batches.
-	for (const auto& mesh : meshes_)
+	for (auto& list : drawing_lists_)
 	{
-		// todo: Allow flexibility for programs to be used depending on mesh to be drawn.
-		glUseProgram(get_program("Standard"));
-		glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, mesh->get_ebo());
-        glBindVertexArray(mesh->get_vao());
+		for (auto j = 0; j < list.meshes.size(); j++)
+		{
+			const auto& mesh = list.meshes[j];
 
-		glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, nullptr);
+			glUseProgram(list.shader_program_id);
 
-		glBindVertexArray(0);
-		glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
+			const unsigned int transform_loc = glGetUniformLocation(list.shader_program_id, "transform");
+			glUniformMatrix4fv(transform_loc, 1, GL_FALSE, glm::value_ptr(mesh->transform.get_transform()));
+
+			glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, mesh->get_ebo());
+			glBindVertexArray(mesh->get_vao());
+
+			glDrawElements(GL_TRIANGLES, mesh->get_indices_count(), GL_UNSIGNED_INT, nullptr);
+
+			glBindVertexArray(0);
+			glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
+		}
 	}
 }
 
@@ -30,23 +40,25 @@ renderer::renderer()
 renderer::~renderer()
 = default;
 
-void renderer::add_mesh(const std::shared_ptr<mesh>& mesh)
+void renderer::create_draw_list(const std::string& draw_list_name, const GLuint shader_program_id)
 {
-	meshes_.push_back(mesh);
+	draw_list new_list;
+	new_list.draw_list_name = draw_list_name;
+	new_list.shader_program_id = shader_program_id;
+
+	drawing_lists_.push_back(new_list);
 }
 
-void renderer::add_program(const std::string& name, const GLuint program)
+bool renderer::add_mesh_to_draw_list(const std::string& name, const std::shared_ptr<mesh>& mesh)
 {
-	shader_programs_[name] = program;
-}
-
-GLuint renderer::get_program(const std::string& name)
-{
-	const auto it = shader_programs_.find(name);
-    if (it != shader_programs_.end())
+	for (auto& list : drawing_lists_)
 	{
-    	return it->second;
-    }
+		if (list.draw_list_name == name)
+		{
+			list.meshes.push_back(mesh);
 
-    return 0;
+			return true;
+		}
+	}
+	return false;
 }

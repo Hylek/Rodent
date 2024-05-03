@@ -62,3 +62,8 @@ GLuint mesh::get_ebo() const
 {
 	return ebo_;
 }
+
+int mesh::get_indices_count() const
+{
+	return indices_.size();
+}
